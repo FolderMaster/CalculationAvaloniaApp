@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+			 xmlns:v="clr-namespace:View.Views"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+             x:Class="View.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <vm:MainViewModel/>
+  </Design.DataContext>
+	<Grid ColumnDefinitions="*, Auto, *">
+		<ScrollViewer Grid.Column="0">
+			<StackPanel>
+				<Expander Header="General" HorizontalAlignment="Stretch"
+						  IsExpanded="True">
+					<StackPanel>
+						<CheckBox IsChecked="{Binding IsGpu}"
+								  Content="Is GPU calculation"/>
+					</StackPanel>
+				</Expander>
+				<Expander Header="Calculation" HorizontalAlignment="Stretch"
+						  IsExpanded="True">
+					<StackPanel>
+						<ComboBox ItemsSource="{Binding Calculations}"
+								  SelectedItem="{Binding Calculation}"/>
+						<v:ArgumentsControl ArgumentsSet="{Binding CalculationArgumentsSet}"/>
+					</StackPanel>
+				</Expander>
+				<Expander Header="Drawer" HorizontalAlignment="Stretch"
+						  IsExpanded="True">
+					<StackPanel>
+						<ComboBox ItemsSource="{Binding Drawers}"
+								  SelectedItem="{Binding Drawer}"/>
+						<v:ArgumentsControl ArgumentsSet="{Binding DrawerArgumentsSet}"/>
+					</StackPanel>
+				</Expander>
+				<Expander Header="Render" HorizontalAlignment="Stretch"
+						  IsExpanded="True">
+					<StackPanel>
+						<TextBox Text="{Binding SavePath}"/>
+						<Button Content="Save image" Command="{Binding SaveImage}"/>
+					</StackPanel>
+				</Expander>
+			</StackPanel>
+		</ScrollViewer>
+		<GridSplitter Grid.Column="1" Background="{DynamicResource SystemAccentColor}"/>
+		<Image Name="image" Grid.Column="2" Source="{Binding Image}"
+			   Stretch="Fill" MinWidth="1" MinHeight="1"
+			   SizeChanged="Image_SizeChanged"/>
+	</Grid>
+</UserControl>

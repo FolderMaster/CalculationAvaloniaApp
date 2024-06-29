@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:m="using:Model.Arguments"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="View.Views.ArgumentsControl"
+			 Name="control">
+	<StackPanel>
+		<ItemsControl ItemsSource="{Binding #control.ArgumentsSet.Arguments, Mode=TwoWay}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate DataType="m:Argument">
+					<Grid ColumnDefinitions="70, *, 220">
+						<TextBlock Grid.Column="0" Text="{Binding Name}"
+								   VerticalAlignment="Center"/>
+						<Slider Grid.Column="1" Value="{Binding Value, Mode=TwoWay}"
+								Minimum="{Binding Minimum}" Maximum="{Binding Maximum}"
+								VerticalAlignment="Center"/>
+						<NumericUpDown Grid.Column="2" Value="{Binding Value, Mode=TwoWay}"
+								   VerticalAlignment="Center"/>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</StackPanel>
+</UserControl>
