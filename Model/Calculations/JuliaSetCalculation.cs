@@ -1,15 +1,14 @@
 ﻿using ILGPU;
-using Model.Arguments;
+using Model.Parameters;
 
 namespace Model.Calculations
 {
     public class JuliaSetCalculation : ICalculation<double, double>
     {
-        private static IArgumentsSet<double> _argumentsSet =
-            new ArgumentsSet([new Argument("X1", -2, 2, -2),
-                new Argument("X2", -2, 2, 2), new Argument("Y1", -2, 2, -2),
-                new Argument("Y2", -2, 2, 2), new Argument("Iteration", 1, 1000),
-                new Argument("Real", -1, 1), new Argument("Imaginary", -1, 1)]);
+        private static IParametersComposite<double> _argumentsSet =
+            new ParametersComposite([new AxisParametersSet("X", -2, 2, 1e-15),
+                new AxisParametersSet("Y", -2, 2, 1e-15), new Parameter("Iteration", 1, 1000),
+                new Parameter("Real", -1, 1), new Parameter("Imaginary", -1, 1)]);
 
         public void Calculate(Index1D index, int width, int height,
             ArrayView<double> args, ArrayView<double> output)
@@ -41,7 +40,7 @@ namespace Model.Calculations
             output[index] = iteration / maxIterations;
         }
 
-        public IArgumentsSet<double> GetArgumentsSet() => _argumentsSet;
+        public IParametersComposite<double> GetArgumentsSet() => _argumentsSet;
 
         public override string ToString() => "Julia set";
     }

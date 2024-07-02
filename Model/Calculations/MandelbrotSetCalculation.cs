@@ -1,14 +1,14 @@
 ﻿using ILGPU;
-using Model.Arguments;
+using Model.Parameters;
 
 namespace Model.Calculations
 {
     public class MandelbrotSetCalculation : ICalculation<double, double>
     {
-        private static IArgumentsSet<double> _argumentsSet =
-            new ArgumentsSet([new Argument("X1", -2, 1, -2),
-                new Argument("X2", -2, 1, 1), new Argument("Y1", -1, 1, -1),
-                new Argument("Y2", -1, 1, 1), new Argument("Iteration", 1, 1000)]);
+        private static IParametersComposite<double> _argumentsSet =
+            new ParametersComposite([new AxisParametersSet("X", -2, 1, 1e-15),
+                new AxisParametersSet("Y", -1, 1, 1e-15),
+                new Parameter("Iteration", 1, 1000)]);
 
         public void Calculate(Index1D index, int width, int height,
             ArrayView<double> args, ArrayView<double> output)
@@ -38,7 +38,7 @@ namespace Model.Calculations
             output[index] = iteration / maxIterations;
         }
 
-        public IArgumentsSet<double> GetArgumentsSet() => _argumentsSet;
+        public IParametersComposite<double> GetArgumentsSet() => _argumentsSet;
 
         public override string ToString() => "Mandelbrot set";
     }

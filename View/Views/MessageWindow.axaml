@@ -2,21 +2,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
         x:Class="View.Views.MessageWindow"
-		Icon="/Assets/Error.png"
-        Title="Error" Name="window" Width="400" Height="250"
+		Name="window" Icon="{StaticResource ErrorWindowIcon}"
+        Title="{StaticResource ErrorWindowHeader}" Width="400" Height="250"
 		Topmost="True" WindowStartupLocation="CenterOwner" CanResize="False">
 	<Grid RowDefinitions="*, Auto">
 		<Grid ColumnDefinitions="Auto, *">
-			<Image Grid.Column="0" Margin="10" Source="/Assets/Error.png"
-				   VerticalAlignment="Top" Width="100" Height="100"/>
+			<Image Grid.Column="0" Margin="10" Source="{StaticResource ErrorImage}"
+				   Stretch="Fill" VerticalAlignment="Top" Width="100" Height="100"/>
 			<TextBox Grid.Column="1" Text="{Binding #window.Message}"
 					 Margin="10" Background="Transparent" BorderThickness="0"
 					 AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap"/>
 		</Grid>
 		<WrapPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
-			<Button Content="OK" IsDefault="True" Click="Button_Click" Margin="10"/>
+			<Button Content="{StaticResource OkButtonString}" IsDefault="True"
+					Click="Button_Click" Margin="10"/>
 		</WrapPanel>
 	</Grid>
 </Window>

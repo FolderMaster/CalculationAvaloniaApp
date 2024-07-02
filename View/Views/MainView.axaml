@@ -4,50 +4,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
 			 xmlns:v="clr-namespace:View.Views"
-             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+             mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="800"
              x:Class="View.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <vm:MainViewModel/>
-  </Design.DataContext>
+	<Design.DataContext>
+		<vm:MainViewModel/>
+	</Design.DataContext>
 	<Grid ColumnDefinitions="*, Auto, *">
 		<ScrollViewer Grid.Column="0">
 			<StackPanel>
-				<Expander Header="General" HorizontalAlignment="Stretch"
-						  IsExpanded="True">
+				<Expander Header="{StaticResource GeneralExpanderHeader}"
+						  HorizontalAlignment="Stretch" IsExpanded="True">
 					<StackPanel>
 						<CheckBox IsChecked="{Binding IsGpu}"
-								  Content="Is GPU calculation"/>
+								  Content="{StaticResource IsGpuCheckBoxString}"/>
 					</StackPanel>
 				</Expander>
-				<Expander Header="Calculation" HorizontalAlignment="Stretch"
-						  IsExpanded="True">
+				<Expander Header="{StaticResource CalculationExpanderHeader}"
+						  HorizontalAlignment="Stretch" IsExpanded="True">
 					<StackPanel>
 						<ComboBox ItemsSource="{Binding Calculations}"
 								  SelectedItem="{Binding Calculation}"/>
-						<v:ArgumentsControl ArgumentsSet="{Binding CalculationArgumentsSet}"/>
+						<ContentControl Content="{Binding CalculationArgumentsSet}" />
 					</StackPanel>
 				</Expander>
-				<Expander Header="Drawer" HorizontalAlignment="Stretch"
-						  IsExpanded="True">
+				<Expander Header="{StaticResource DrawerExpanderHeader}"
+						  HorizontalAlignment="Stretch" IsExpanded="True">
 					<StackPanel>
 						<ComboBox ItemsSource="{Binding Drawers}"
 								  SelectedItem="{Binding Drawer}"/>
-						<v:ArgumentsControl ArgumentsSet="{Binding DrawerArgumentsSet}"/>
+						<ContentControl Content="{Binding DrawerArgumentsSet}" />
 					</StackPanel>
 				</Expander>
-				<Expander Header="Render" HorizontalAlignment="Stretch"
-						  IsExpanded="True">
+				<Expander Header="{StaticResource RenderExpanderHeader}"
+						  HorizontalAlignment="Stretch" IsExpanded="True">
 					<StackPanel>
+						<TextBlock Text="{StaticResource SavePathString}"/>
 						<TextBox Text="{Binding SavePath}"/>
-						<Button Content="Save image" Command="{Binding SaveImage}"/>
+						<Button Content="{StaticResource SaveImageButtonString}"
+								Command="{Binding SaveImage}" Margin="0, 10, 0, 0"/>
 					</StackPanel>
 				</Expander>
 			</StackPanel>
 		</ScrollViewer>
 		<GridSplitter Grid.Column="1" Background="{DynamicResource SystemAccentColor}"/>
-		<Image Name="image" Grid.Column="2" Source="{Binding Image}"
-			   Stretch="Fill" MinWidth="1" MinHeight="1"
-			   SizeChanged="Image_SizeChanged"/>
+		<Image Grid.Column="2" Source="{Binding Image}" Stretch="Fill"
+			   MinWidth="1" MinHeight="1" SizeChanged="Image_SizeChanged"/>
 	</Grid>
 </UserControl>

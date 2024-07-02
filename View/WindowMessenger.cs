@@ -13,7 +13,10 @@ namespace View
         public async Task Message(string message)
         {
             ArgumentNullException.ThrowIfNull(MainWindow);
-            var window = new MessageWindow(message);
+            var window = new MessageWindow()
+            {
+                Message = message
+            };
             await window.ShowDialog(MainWindow);
         }
     }

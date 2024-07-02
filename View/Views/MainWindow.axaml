@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:View.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="View.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="View">
+		Icon="{StaticResource MainWindowIcon}"
+        Title="{StaticResource MainWindowHeader}">
         <views:MainView />
 </Window>

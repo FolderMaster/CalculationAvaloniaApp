@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="50"
+             x:Class="View.Views.RangeSlider" Name="control">
+	<StackPanel Name="stack" Orientation="{Binding #control.Orientation}"
+				FlowDirection="{Binding #control.FlowDirection}"
+				SizeChanged="Stack_SizeChanged">
+		<Border Name="lowerBar" Background="Transparent"
+				PointerPressed="LowerBar_PointerPressed">
+			<Border Background="{DynamicResource SliderTickBarFill}" MinHeight="2"
+					MinWidth="2" VerticalAlignment="{Binding #control.Orientation,
+					Converter={StaticResource ValueToAlignmentConverter},
+					ConverterParameter=Vertical}"
+					HorizontalAlignment="{Binding #control.Orientation,
+					Converter={StaticResource ValueToAlignmentConverter},
+					ConverterParameter=Horizontal}"/>
+		</Border>
+		<Thumb Name="lowerThumb" Theme="{StaticResource FluentSliderThumbTheme}"
+			   Width="{DynamicResource SliderHorizontalThumbWidth}"
+			   Height="{DynamicResource SliderHorizontalThumbHeight}"
+			   Background="{DynamicResource SystemAccentColor}"
+			   DragDelta="LowerThumb_DragDelta"/>
+		<Border Name="middleBar" Background="Transparent">
+			<Border Background="{DynamicResource SystemAccentColor}" MinHeight="2"
+					MinWidth="2" VerticalAlignment="{Binding #control.Orientation,
+					Converter={StaticResource ValueToAlignmentConverter},
+					ConverterParameter=Vertical}"
+					HorizontalAlignment="{Binding #control.Orientation,
+					Converter={StaticResource ValueToAlignmentConverter},
+					ConverterParameter=Horizontal}"/>
+		</Border>
+		<Thumb Name="upperThumb" Theme="{StaticResource FluentSliderThumbTheme}"
+			   Width="{DynamicResource SliderHorizontalThumbWidth}"
+			   Height="{DynamicResource SliderHorizontalThumbHeight}"
+			   Background="{DynamicResource SystemAccentColor}"
+			   DragDelta="UpperThumb_DragDelta"/>
+		<Border Name="upperBar" Background="Transparent"
+				PointerPressed="UpperBar_PointerPressed">
+			<Border Background="{DynamicResource SliderTickBarFill}" MinHeight="2"
+					MinWidth="2" VerticalAlignment="{Binding #control.Orientation,
+					Converter={StaticResource ValueToAlignmentConverter},
+					ConverterParameter=Vertical}"
+					HorizontalAlignment="{Binding #control.Orientation,
+					Converter={StaticResource ValueToAlignmentConverter},
+					ConverterParameter=Horizontal}"/>
+		</Border>
+	</StackPanel>
+</UserControl>

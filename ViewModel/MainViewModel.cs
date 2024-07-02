@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 using Model;
 using Model.Drawers;
 using Model.Calculations;
-using Model.Arguments;
-using static System.Net.Mime.MediaTypeNames;
+using Model.Parameters;
+using System.ComponentModel;
 
 namespace ViewModel;
 
@@ -29,13 +29,13 @@ public class MainViewModel : ViewModelBase
 
     private IEnumerable<ICalculation<double, double>> _calculations;
 
-    private ArgumentsSet _calculationArgumentsSet;
+    private ParametersComposite _calculationArgumentsSet;
 
     private IEnumerable<IDrawer<double, double, int>> _drawers;
 
     private IDrawer<double, double, int> _drawer;
 
-    private ArgumentsSet _drawerArgumentsSet;
+    private ParametersComposite _drawerArgumentsSet;
 
     private bool _isGpu = true;
 
@@ -50,13 +50,13 @@ public class MainViewModel : ViewModelBase
         {
             if (UpdateProperty(ref _calculation, value))
             {
-                CalculationArgumentsSet = (ArgumentsSet)Calculation.GetArgumentsSet();
+                CalculationArgumentsSet = (ParametersComposite)Calculation.GetArgumentsSet();
                 UpdateImage();
             }
         }
     }
 
-    public ArgumentsSet CalculationArgumentsSet
+    public ParametersComposite CalculationArgumentsSet
     {
         get => _calculationArgumentsSet;
         private set
@@ -66,11 +66,11 @@ public class MainViewModel : ViewModelBase
             {
                 if(oldValue != null)
                 {
-                    oldValue.ArgumentChanged -=
-                        CalculationArgumentsSet_ArgumentChanged;
+                    oldValue.PropertyChanged -=
+                        CalculationArgumentsSet_PropertyChanged;
                 }
-                _calculationArgumentsSet.ArgumentChanged +=
-                    CalculationArgumentsSet_ArgumentChanged;
+                _calculationArgumentsSet.PropertyChanged +=
+                    CalculationArgumentsSet_PropertyChanged;
             }
         }
     }
@@ -84,13 +84,13 @@ public class MainViewModel : ViewModelBase
         {
             if (UpdateProperty(ref _drawer, value))
             {
-                DrawerArgumentsSet = (ArgumentsSet)Drawer.GetArgumentsSet();
+                DrawerArgumentsSet = (ParametersComposite)Drawer.GetArgumentsSet();
                 UpdateImage();
             }
         }
     }
 
-    public ArgumentsSet DrawerArgumentsSet
+    public ParametersComposite DrawerArgumentsSet
     {
         get => _drawerArgumentsSet;
         private set
@@ -100,11 +100,11 @@ public class MainViewModel : ViewModelBase
             {
                 if (oldValue != null)
                 {
-                    oldValue.ArgumentChanged -=
-                        CalculationArgumentsSet_ArgumentChanged;
+                    oldValue.PropertyChanged -=
+                        CalculationArgumentsSet_PropertyChanged;
                 }
-                _drawerArgumentsSet.ArgumentChanged +=
-                    CalculationArgumentsSet_ArgumentChanged;
+                _drawerArgumentsSet.PropertyChanged +=
+                    CalculationArgumentsSet_PropertyChanged;
             }
         }
     }
@@ -173,18 +173,22 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    public MainViewModel(IMessenger messenger)
+    public MainViewModel()
     {
-        _messenger = messenger;
         _calculations = SingletonCollection<ICalculation<double, double>>.
             Instances.Select(s => s.Value);
         _calculation = _calculations.ElementAt(0);
-        CalculationArgumentsSet = (ArgumentsSet)Calculation.GetArgumentsSet();
+        CalculationArgumentsSet = (ParametersComposite)Calculation.GetArgumentsSet();
         _drawers = SingletonCollection<IDrawer<double, double, int>>.
             Instances.Select(s => s.Value);
         Drawer = _drawers.ElementAt(0);
         SavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         UpdateImage();
+    }
+
+    public MainViewModel(IMessenger messenger) : this()
+    {
+        _messenger = messenger;
     }
 
     private Bitmap CreateImage(int[] values, int width, int height)
@@ -202,15 +206,13 @@ public class MainViewModel : ViewModelBase
     private void UpdateImage()
     {
         var buffer = new int[(int)Width * (int)Height];
-        CalculationManager.ChangeAccelerator(IsGpu);
-        CalculationManager.Calculate(buffer, CalculationArgumentsSet.GetArray(),
-            DrawerArgumentsSet.GetArray(), (int)Width, (int)Height,
+        CalculationManager.SetAccelerator(IsGpu);
+        CalculationManager.Calculate(buffer, CalculationArgumentsSet.GetArguments(),
+            DrawerArgumentsSet.GetArguments(), (int)Width, (int)Height,
             Calculation, Drawer);
         Image = CreateImage(buffer, (int)Width, (int)Height);
     }
 
-    private void CalculationArgumentsSet_ArgumentChanged(object? sender, IArgument<double> e)
-    {
-        UpdateImage();
-    }
+    private void CalculationArgumentsSet_PropertyChanged
+        (object? sender, PropertyChangedEventArgs e) => UpdateImage();
 }

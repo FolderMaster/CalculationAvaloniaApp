@@ -2,6 +2,7 @@
 using ILGPU.Runtime;
 using ILGPU.Runtime.CPU;
 using ILGPU.Runtime.Cuda;
+using ILGPU.Runtime.OpenCL;
 using Model.Calculations;
 using Model.Drawers;
 
@@ -18,12 +19,12 @@ namespace Model
             _context = Context.CreateDefault();
         }
 
-        public static void ChangeAccelerator(bool isGpu)
+        public static void SetAccelerator(bool isGpu)
         {
             if (_accelerator == null)
             {
                 _accelerator = isGpu ? _context.CreateCudaAccelerator(0) :
-                    _context.CreateCPUAccelerator(0);
+                    _context.CreateCLAccelerator(0);
             }
             else if (isGpu && _accelerator.AcceleratorType != AcceleratorType.Cuda)
             {
@@ -33,7 +34,7 @@ namespace Model
             else if (!isGpu && _accelerator.AcceleratorType != AcceleratorType.CPU)
             {
                 _accelerator.Dispose();
-                _accelerator = _context.CreateCPUAccelerator(0);
+                _accelerator = _context.CreateCLAccelerator(0);
             }
         }
 
@@ -45,18 +46,20 @@ namespace Model
             where R : unmanaged
             where A2 : unmanaged
         {
-            var calculating = _accelerator.LoadAutoGroupedStreamKernel
-                <Index1D, int, int, ArrayView<A1>, ArrayView<T>>(calculation.Calculate);
-            var drawing = _accelerator.LoadAutoGroupedStreamKernel
-                <Index1D, ArrayView<T>, ArrayView<A2>, ArrayView<R>>(drawer.Draw);
-            
             int count = buffer.Length;
             var values = _accelerator.Allocate1D<T>(count);
             var calculationArguments = _accelerator.Allocate1D(calculationArgs);
+
+            var calculating = _accelerator.LoadAutoGroupedStreamKernel
+                <Index1D, int, int, ArrayView<A1>, ArrayView<T>>(calculation.Calculate);
+            calculating(count, width, height, calculationArguments.View, values.View);
+            _accelerator.Synchronize();
+
             var result = _accelerator.Allocate1D<R>(count);
             var drawerArguments = _accelerator.Allocate1D(drawerArgs);
 
-            calculating(count, width, height, calculationArguments.View, values.View);
+            var drawing = _accelerator.LoadAutoGroupedStreamKernel
+                <Index1D, ArrayView<T>, ArrayView<A2>, ArrayView<R>>(drawer.Draw);
             drawing(count, values.View, drawerArguments.View, result.View);
 
             _accelerator.Synchronize();
@@ -65,6 +68,7 @@ namespace Model
             values.Dispose();
             calculationArguments.Dispose();
             result.Dispose();
+            drawerArguments.Dispose();
         }
     }
 }

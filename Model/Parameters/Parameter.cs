@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace Model.Arguments
+namespace Model.Parameters
 {
-    public class Argument : IArgument<double>, INotifyPropertyChanged
+    public class Parameter : IParameter<double>, INotifyPropertyChanged
     {
         private double _value;
 
@@ -17,7 +17,6 @@ namespace Model.Arguments
                     _value = value;
                     PropertyChanged?.Invoke(this,
                         new PropertyChangedEventArgs(nameof(Value)));
-                    Changed?.Invoke(this, value);
                 }
             }
         }
@@ -28,19 +27,25 @@ namespace Model.Arguments
 
         public string Name { get; private set; }
 
-        public event EventHandler<double>? Changed;
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public Argument(string name, double minimum, double maximum, double defaultValue)
+        public Parameter(string name, double minimum, double maximum, double defaultValue)
         {
+            if (minimum > maximum)
+            {
+                throw new ArgumentException(nameof(maximum));
+            }
+            if (defaultValue < minimum || defaultValue > maximum)
+            {
+                throw new ArgumentException(nameof(defaultValue));
+            }
             Name = name;
             Minimum = minimum;
             Maximum = maximum;
             Value = defaultValue;
         }
 
-        public Argument(string name, double minimum, double maximum) :
+        public Parameter(string name, double minimum, double maximum) :
             this(name, minimum, maximum, (maximum + minimum) / 2) { }
     }
 }

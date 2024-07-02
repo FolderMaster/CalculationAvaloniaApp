@@ -13,7 +13,7 @@ public partial class MainView : UserControl
     private void Image_SizeChanged(object? sender, SizeChangedEventArgs e)
     {
         var context = (MainViewModel)DataContext;
-        context.Width = image.Bounds.Width;
-        context.Height = image.Bounds.Height;
+        context.Width = e.NewSize.Width;
+        context.Height = e.NewSize.Height;
     }
 }

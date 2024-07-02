@@ -1,14 +1,14 @@
 ﻿using ILGPU;
 using ILGPU.Algorithms;
-using Model.Arguments;
+using Model.Parameters;
 
 namespace Model.Drawers
 {
     public class RainbowDrawer : IDrawer<double, double, int>
     {
-        private static IArgumentsSet<double> _argumentsSet =
-            new ArgumentsSet([new Argument("Duration", 0, 1000, 2),
-                new Argument("Color", 0, XMath.PI, 2)]);
+        private static IParametersComposite<double> _argumentsSet =
+            new ParametersComposite([new Parameter("Duration", 0, 1000, 2),
+                new Parameter("Color", 0, XMath.PI, 2)]);
 
         public void Draw(Index1D index, ArrayView<double> values,
             ArrayView<double> args, ArrayView<int> result)
@@ -16,7 +16,7 @@ namespace Model.Drawers
             result[index] = (int)GetColor(values[index], args);
         }
 
-        public IArgumentsSet<double> GetArgumentsSet() => _argumentsSet;
+        public IParametersComposite<double> GetArgumentsSet() => _argumentsSet;
 
         private Color GetColor(double ratio, ArrayView<double> args) =>
             new Color(255, (byte)(255 * XMath.Abs(XMath.Sin((float)(args[0] * ratio * XMath.PI)))),

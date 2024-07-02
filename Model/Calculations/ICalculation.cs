@@ -1,5 +1,5 @@
 ﻿using ILGPU;
-using Model.Arguments;
+using Model.Parameters;
 
 namespace Model.Calculations
 {
@@ -7,7 +7,7 @@ namespace Model.Calculations
         where T : unmanaged
         where A : unmanaged
     {
-        public IArgumentsSet<A> GetArgumentsSet();
+        public IParametersComposite<A> GetArgumentsSet();
 
         public void Calculate(Index1D index, int width, int height,
             ArrayView<A> args, ArrayView<T> output);

@@ -1,0 +1,6 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:c="using:View.Converters">
+	<c:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
+	<c:ValueToAlignmentConverter x:Key="ValueToAlignmentConverter"/>
+</ResourceDictionary>

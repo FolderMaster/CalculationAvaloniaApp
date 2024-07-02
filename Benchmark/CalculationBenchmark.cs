@@ -31,17 +31,17 @@ namespace Benchmark
         [Benchmark]
         public void CpuTest()
         {
-            CalculationManager.ChangeAccelerator(false);
-            CalculationManager.Calculate(_buffer, _calculation.GetArgumentsSet().GetArray(),
-                _drawer.GetArgumentsSet().GetArray(), _width, _height, _calculation, _drawer);
+            CalculationManager.SetAccelerator(false);
+            CalculationManager.Calculate(_buffer, _calculation.GetArgumentsSet().GetArguments(),
+                _drawer.GetArgumentsSet().GetArguments(), _width, _height, _calculation, _drawer);
         }
 
         [Benchmark]
         public void GpuTest()
         {
-            CalculationManager.ChangeAccelerator(true);
-            CalculationManager.Calculate(_buffer, _calculation.GetArgumentsSet().GetArray(),
-                _drawer.GetArgumentsSet().GetArray(), _width, _height, _calculation, _drawer);
+            CalculationManager.SetAccelerator(true);
+            CalculationManager.Calculate(_buffer, _calculation.GetArgumentsSet().GetArguments(),
+                _drawer.GetArgumentsSet().GetArguments(), _width, _height, _calculation, _drawer);
         }
     }
 }

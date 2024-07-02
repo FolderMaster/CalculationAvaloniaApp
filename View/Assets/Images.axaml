@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Margin="20" Width="400" Height="800">
+			<StackPanel>
+				<Image Source="{StaticResource ErrorImage}"/>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+	<WindowIcon x:Key="MainWindowIcon">avares://View/Assets/Images/Icon.png</WindowIcon>
+	<WindowIcon x:Key="ErrorWindowIcon">avares://View/Assets/Images/Error.png</WindowIcon>
+	<Bitmap x:Key="ErrorImage">avares://View/Assets/Images/Error.png</Bitmap>
+</ResourceDictionary>

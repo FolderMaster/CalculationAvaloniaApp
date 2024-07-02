@@ -1,5 +1,5 @@
 ﻿using ILGPU;
-using Model.Arguments;
+using Model.Parameters;
 
 namespace Model.Drawers
 {
@@ -11,6 +11,6 @@ namespace Model.Drawers
         public void Draw(Index1D index, ArrayView<T> values,
             ArrayView<A> args, ArrayView<R> result);
 
-        public IArgumentsSet<A> GetArgumentsSet();
+        public IParametersComposite<A> GetArgumentsSet();
     }
 }

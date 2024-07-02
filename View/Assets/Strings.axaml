@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<x:String x:Key="MainWindowHeader">Calculation app</x:String>
+	<x:String x:Key="ErrorWindowHeader">Error!</x:String>
+
+	<x:String x:Key="GeneralExpanderHeader">General</x:String>
+	<x:String x:Key="CalculationExpanderHeader">Calculation</x:String>
+	<x:String x:Key="DrawerExpanderHeader">Drawer</x:String>
+	<x:String x:Key="RenderExpanderHeader">Render</x:String>
+
+	<x:String x:Key="IsGpuCheckBoxString">Is GPU calculation</x:String>
+	<x:String x:Key="SaveImageButtonString">Save image</x:String>
+	<x:String x:Key="SavePathString">Save path</x:String>
+	<x:String x:Key="OkButtonString">OK</x:String>
+</ResourceDictionary>
