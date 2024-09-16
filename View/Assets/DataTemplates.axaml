@@ -26,8 +26,8 @@
 					 VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 			<v:RangeSlider Grid.Column="2" VerticalAlignment="Center"
 						   Minimum="{Binding Minimum}" Maximum="{Binding Maximum}"
-						   MinimumDistance="{Binding MinimumDistance}"
-						   LowerValue="{Binding Value1}" UpperValue="{Binding Value2}"/>
+						   LowerValue="{Binding Value1}" UpperValue="{Binding Value2}"
+						   MinimumDistance="{Binding MinimumDistance}"/>
 			<TextBox Grid.Column="3" Text="{Binding Value2, Mode=TwoWay,
 					 Converter={StaticResource StringToDoubleConverter}}"
 					 VerticalAlignment="Center"/>

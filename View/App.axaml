@@ -12,6 +12,7 @@
 				<ResourceInclude Source="Assets/DataTemplates.axaml"/>
 				<ResourceInclude Source="Assets/Strings.axaml"/>
 				<ResourceInclude Source="Assets/Images.axaml"/>
+				<ResourceInclude Source="Views/RangeSlider.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
